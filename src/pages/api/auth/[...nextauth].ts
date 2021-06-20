@@ -5,9 +5,14 @@ import { fauna } from '../../../services/fauna';
 
 export default NextAuth({
   providers: [
-    Providers.GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    // Providers.GitHub({
+    //   clientId: process.env.GITHUB_CLIENT_ID,
+    //   clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    // scope: 'read:user'
+    // }),
+    Providers.Twitter({
+      clientId: process.env.TWITTER_CONSUMER_KEY,
+      clientSecret: process.env.TWIITER_CONSUMER_SECRET,
       scope: 'read:user'
     })
   ],

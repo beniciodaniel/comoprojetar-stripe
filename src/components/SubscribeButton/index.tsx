@@ -13,7 +13,8 @@ export function SubscribeButton({ priceId }: SubscribeButtonProps) {
   async function handleSubscribe() {
     // precisa estar logado para se inscrever
     if (!session) {
-      signIn('github');
+      // signIn('github');
+      signIn('twitter');
       return;
     }
 

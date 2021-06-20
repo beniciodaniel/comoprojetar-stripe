@@ -1,4 +1,4 @@
-import { FaGithub } from 'react-icons/fa';
+import { FaGithub, FaTwitter } from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
 import { signin, useSession, signOut } from 'next-auth/client';
 
@@ -15,7 +15,7 @@ export function SignInButton() {
       className={styles.signInButton}
       onClick={() => signOut()}
     >
-      <FaGithub color="#04d361" />
+      <FaTwitter color="#04d361" />
       {session.user.name}
       <FiX color="#737380" className={styles.closeIcon} />
     </button>
@@ -23,10 +23,10 @@ export function SignInButton() {
     <button
       type="button"
       className={styles.signInButton}
-      onClick={() => signin('github')}
+      onClick={() => signin('twitter')}
     >
-      <FaGithub color="#eba417" />
-      Sign in with GitHub
+      <FaTwitter color="#eba417" />
+      Sign in with Twitter
     </button>
   );
 }
