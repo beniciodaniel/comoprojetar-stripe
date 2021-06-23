@@ -4,7 +4,8 @@ import { stripe } from '../../../services/stripe';
 
 export async function saveSubscription(
   subscriptionId: string,
-  customerId: string
+  customerId: string,
+  createAction = false
 ) {
   // buscar o usuário no banco da Fauna com o ID { customerID }
   // precisa criar um índice novo no fauna pra buscar user_by_stripe_customer_id
@@ -28,7 +29,22 @@ export async function saveSubscription(
   console.log('SUBSCRIPTION DATA: ', subscriptionData);
 
   // salvar os dados da subscription no FaundDB
-  await fauna.query(
-    q.Create(q.Collection('subscriptions'), { data: subscriptionData })
-  );
+  if (createAction) {
+    await fauna.query(
+      q.Create(q.Collection('subscriptions'), { data: subscriptionData })
+    );
+  } else {
+    console.log('TENTANDO ATUALIZAR: ', subscriptionData);
+    await fauna.query(
+      q.Replace(
+        q.Select(
+          'ref',
+          q.Get(q.Match(q.Index('subscription_by_id'), subscriptionId)) // teve que criar mais um INDEX em fauna db
+        ),
+        {
+          data: subscriptionData
+        }
+      )
+    );
+  }
 }
