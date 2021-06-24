@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 import { fauna } from '../../services/fauna';
 import { query as q } from 'faunadb';
-
 import { stripe } from '../../services/stripe';
 
 type User = {
@@ -16,8 +15,7 @@ type User = {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    // precisa saber qual usuario logado na aplicacao para criar o customer no STRIPE
-    const session = await getSession({ req }); // para pegar o usuario do cookie do Next Auth
+    const session = await getSession({ req });
 
     const user = await fauna.query<User>(
       q.Get(q.Match(q.Index('user_by_email'), q.Casefold(session.user.email)))
@@ -31,7 +29,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // metadata
       });
 
-      // precisar gravar no FaunaDB o id do stripe para o stripe nao ficar criando sempre um usuario que ja existe
       await fauna.query(
         q.Update(q.Ref(q.Collection('users'), user.ref.id), {
           data: {
@@ -44,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const stripeCheckoutSession = await stripe.checkout.sessions.create({
-      customer: customerId, // id do customer no Stripe e não no Fauna
+      customer: customerId,
       payment_method_types: ['card'],
       billing_address_collection: 'required',
       line_items: [

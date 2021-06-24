@@ -4,6 +4,12 @@ import { saveSubscription } from './_lib/manageSubscription';
 import { stripe } from '../../services/stripe';
 import Stripe from 'stripe';
 
+export const config = {
+  api: {
+    bodyParser: false
+  }
+};
+
 async function buffer(readable: Readable) {
   const chunks = [];
 
@@ -13,13 +19,6 @@ async function buffer(readable: Readable) {
 
   return Buffer.concat(chunks);
 }
-
-// para desabilitar o entendimento padrao do Next como ta vindo na requisicao
-export const config = {
-  api: {
-    bodyParser: false
-  }
-};
 
 const relevantEvents = new Set([
   'checkout.session.completed',
@@ -47,7 +46,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { type } = event;
 
     if (relevantEvents.has(type)) {
-      console.log('WEBHOOKS.TS: Evento recebido: ', event);
       try {
         switch (type) {
           case 'customer.subscription.updated':

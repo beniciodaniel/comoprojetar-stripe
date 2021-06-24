@@ -28,7 +28,6 @@ export async function saveSubscription(
 
   console.log('SUBSCRIPTION DATA: ', subscriptionData);
 
-  // salvar os dados da subscription no FaundDB
   if (createAction) {
     await fauna.query(
       q.Create(q.Collection('subscriptions'), { data: subscriptionData })
