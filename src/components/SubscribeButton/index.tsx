@@ -1,4 +1,5 @@
 import { useSession, signIn } from 'next-auth/client';
+import { useRouter } from 'next/router';
 import { api } from '../../services/api';
 import { getStripeJs } from '../../services/stripe-js';
 import styles from './styles.module.scss';
@@ -9,23 +10,26 @@ interface SubscribeButtonProps {
 
 export function SubscribeButton({ priceId }: SubscribeButtonProps) {
   const [session] = useSession();
+  const router = useRouter();
 
   async function handleSubscribe() {
-    // precisa estar logado para se inscrever
     if (!session) {
       // signIn('github');
       signIn('twitter');
       return;
     }
 
+    if (session?.activeSubscription) {
+      router.push('/posts');
+      return;
+    }
+
     // criação da checkout session
-    // precisa usar o API Routes para client nao saber das chaves privadas
     try {
       const response = await api.post('/subscribe');
-
       const { sessionId } = response.data;
       const stripe = await getStripeJs();
-      await stripe.redirectToCheckout({ sessionId }); // importante o jeito de passar o parametro
+      await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
       alert(error.message);
     }
