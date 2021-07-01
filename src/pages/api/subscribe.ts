@@ -14,6 +14,7 @@ type User = {
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log(req.query);
   if (req.method === 'POST') {
     const session = await getSession({ req });
 

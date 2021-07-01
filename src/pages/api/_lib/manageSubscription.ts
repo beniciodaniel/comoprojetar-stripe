@@ -33,7 +33,6 @@ export async function saveSubscription(
       q.Create(q.Collection('subscriptions'), { data: subscriptionData })
     );
   } else {
-    console.log('TENTANDO ATUALIZAR: ', subscriptionData);
     await fauna.query(
       q.Replace(
         q.Select(
