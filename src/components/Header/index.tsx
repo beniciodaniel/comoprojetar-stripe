@@ -8,7 +8,7 @@ export function Header() {
       <div className={styles.headerContent}>
         <img src="/images/logo-white.png" alt="logo" />
         <nav>
-          <ActiveLink activeClassName={styles.active} href="/home">
+          <ActiveLink activeClassName={styles.active} href="/">
             <a>Home</a>
           </ActiveLink>
           <ActiveLink activeClassName={styles.active} href="/posts" prefetch>

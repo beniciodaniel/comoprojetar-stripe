@@ -14,7 +14,21 @@ export function ActiveLink({
 }: ActiveLinkProps) {
   const { asPath } = useRouter();
 
-  const className = asPath.includes(String(rest.href)) ? activeClassName : '';
+  let className;
+
+  console.log(asPath, 'huhuh');
+
+  if (asPath === rest.href) {
+    className = activeClassName;
+  } else if (
+    asPath !== '/' &&
+    rest.href !== '/' &&
+    asPath.includes(String(rest.href))
+  ) {
+    className = activeClassName;
+  } else {
+    className = '';
+  }
 
   return (
     <Link {...rest}>
