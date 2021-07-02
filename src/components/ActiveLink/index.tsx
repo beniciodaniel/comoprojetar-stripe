@@ -16,8 +16,6 @@ export function ActiveLink({
 
   let className;
 
-  console.log(asPath, 'huhuh');
-
   if (asPath === rest.href) {
     className = activeClassName;
   } else if (
