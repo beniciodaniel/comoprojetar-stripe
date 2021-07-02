@@ -26,7 +26,7 @@ export function SignInButton() {
       onClick={() => signin('twitter')}
     >
       <FaTwitter color="#eba417" />
-      Entrar com Twitter
+      <span>Entrar com Twitter</span>
     </button>
   );
 }
