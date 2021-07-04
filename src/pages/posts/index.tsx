@@ -52,8 +52,6 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   );
 
-  // console.log(JSON.stringify(response, null, 2));
-
   const posts = response.results.map((post) => {
     return {
       slug: post.uid,
@@ -75,6 +73,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       posts
-    }
+    },
+    revalidate: 60 * 30
   };
 };
